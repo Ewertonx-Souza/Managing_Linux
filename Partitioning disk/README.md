@@ -143,7 +143,7 @@ VM criada sem disco, pois será anexado nela a imagem de disco da VM principal, 
 
 
 
-Os comandos usado para isso foi os seguintes:
+Os comandos usado para isso foram os seguintes:
 
 
 
