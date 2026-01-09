@@ -1,4 +1,4 @@
-Nesse homelab, será criado uma partição para o /boot, pois na instalação do sistema operacional Linux, não foi feito isso. A não criação foi proposital para que seja utilizado métodos necessários para a criação já com o SO em execução. Para isso, foi necessário a utilização do LIVECD do Linux, que é o sistema sendo executado na memória, mas não está no dispositivo de armazenamento. O virtualizador utilizado para criar a VM foi o Proxmox. 
+Nesse homelab, será criado uma partição para o /boot, pois na instalação do sistema operacional Linux, não foi feito isso. A não criação foi proposital para que seja utilizado métodos necessários para a criação já com o SO em execução. Para isso, foi necessário a utilização do LIVECD do Linux, que é o sistema sendo executado na memória, mas não está no dispositivo de armazenamento. O virtualizador utilizado para criar a VM foi o Proxmox.
 
 
 
@@ -6,13 +6,13 @@ Abaixo temos a informação do sistema operacional principal e suas partições:
 
 
 
-!\[lsblk1](../Imagens/particao\_SDA3/lsblk\_vm1.png)
+!\[lsblk1](../Imagens/lsblk\_vm1.png)
 
 
 
 sda1 - Bios\_boot
 
-sda2 - Root filesystem 
+sda2 - Root filesystem
 
 
 
@@ -20,13 +20,13 @@ Pode-se perceber que não existe partição /boot. /boot é apenas um diretório
 
 
 
-Por que criar uma partição para o /boot? 
+Por que criar uma partição para o /boot?
 
 
 
 * Flexibilidade
 
-Caso a partição raiz (/) for criptografada e o boot estiver dentro dele, o sistema não consegue carregar o kernel antes da descriptografia. Agora, se o /boot estiver separado e sem criptografia, GRUB (bootloader) pode carregar os arquivos essenciais. 
+Caso a partição raiz (/) for criptografada e o boot estiver dentro dele, o sistema não consegue carregar o kernel antes da descriptografia. Agora, se o /boot estiver separado e sem criptografia, GRUB (bootloader) pode carregar os arquivos essenciais.
 
 
 
@@ -36,7 +36,7 @@ Se ocorrer alguma corrupção do root filesystem, o /boot separado permite inici
 
 
 
-* Gerenciamento de Kernels 
+* Gerenciamento de Kernels
 
 Permite ter vários kernels instalados sem conflitos.
 
@@ -44,7 +44,7 @@ Permite ter vários kernels instalados sem conflitos.
 
 * Facilidade em Dual-Boot
 
-Em situações com outros sistemas ou partições complexas, igual ZFS em LVM, o /boot compacto e simples (ext4) previne problemas de compatibilidade do bootloader. 
+Em situações com outros sistemas ou partições complexas, igual ZFS em LVM, o /boot compacto e simples (ext4) previne problemas de compatibilidade do bootloader.
 
 
 
@@ -58,20 +58,20 @@ Por que durante a instalação eu consigo particionar, mas depois preciso de LIV
 
 
 
-* Durante a instalação está montada como sistema ativo  
-* O disco não está em uso 
+* Durante a instalação está montada como sistema ativo
+* O disco não está em uso
 * O instalador roda em um ambiente live (RAM)
 
 
 
-Ou seja, na pratica, o instalador já é um LIVECD automatizado com o disco totalmente livre para ser alterado. Agora, quando o Linux está instalado e rodando: 
+Ou seja, na pratica, o instalador já é um LIVECD automatizado com o disco totalmente livre para ser alterado. Agora, quando o Linux está instalado e rodando:
 
 
 
-* A partição raiz (/) está montada 
-* O sistema de arquivo está em uso 
-* Binários, bibliotecas e processos estão acessando o disco 
-* O kernel bloqueia operações destrutivas em partições montadas 
+* A partição raiz (/) está montada
+* O sistema de arquivo está em uso
+* Binários, bibliotecas e processos estão acessando o disco
+* O kernel bloqueia operações destrutivas em partições montadas
 
 
 
@@ -141,11 +141,11 @@ Agora, já esclarecido as questões sobre o /boot e filesystem, seguiremos o pro
 
 
 
-!\[rescue](../Imagens/particao\_SDA3/vm\_rescue\_no\_disk.png)
+!\[rescue](../Imagens/vm\_rescue\_no\_disk.png)
 
 
 
-VM criada sem disco, pois será anexado nela a imagem de disco da VM principal, na qual queremos criar a partição SDA3. Com a VM rescue criada e sem disco, será utilizado o shell do node que as VM's estão hospedadas. 
+VM criada sem disco, pois será anexado nela a imagem de disco da VM principal, na qual queremos criar a partição SDA3. Com a VM rescue criada e sem disco, será utilizado o shell do node que as VM's estão hospedadas.
 
 
 
@@ -153,13 +153,13 @@ Os comandos usado para isso foi os seguintes:
 
 
 
-* qm set 101 -scsi1 local-lvm:vm-100-disk-0 - Anexar o disco 
-* qm set 101 -delete scsi1 - Remover disco, se necessário 
-* qm config 101 - Ver as configurações 
+* qm set 101 -scsi1 local-lvm:vm-100-disk-0 - Anexar o disco
+* qm set 101 -delete scsi1 - Remover disco, se necessário
+* qm config 101 - Ver as configurações
 
 
 
-!\[anexo](../Imagens/particao\_SDA3/anexo\_VM1xVM2.png)
+!\[anexo](../Imagens/anexo\_VM1xVM2.png)
 
 
 
@@ -171,23 +171,9 @@ Dessa forma, com a VM rescue criada e anexado o disco a VM principal, a VM deve 
 
 
 
-!\[rescuelsblk](../Imagens/particao\_SDA3/lsblk\_rescue.png)
+!\[rescuelsblk](../Imagens/lsblk\_rescue.png)
 
 
 
-Na imagem, é possível ver que  os mesmo discos e partições da VM rescue e o da VM principal. 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Na imagem, é possível ver que  os mesmo discos e partições da VM rescue e o da VM principal.
 
