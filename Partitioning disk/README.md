@@ -2,7 +2,7 @@ Nesse homelab, será criado uma partição para o /boot, pois na instalação do
 
 Abaixo, temos a informação do sistema operacional principal e suas partições:
 
-![jobdelete](../Imagens/lsblk_vm1.png)
+![jobdelete](../Imagens/Particionamento/lsblk_vm1.png)
 
 sda1 - Bios_boot
 
