@@ -1,14 +1,8 @@
 Nesse homelab, será criado uma partição para o /boot, pois na instalação do sistema operacional Linux, não foi feito isso. A não criação foi proposital para que seja utilizado métodos necessários para a criação já com o SO em execução. Para isso, foi necessário a utilização do LIVECD do Linux, que é o sistema sendo executado na memória, mas não está no dispositivo de armazenamento. O virtualizador utilizado para criar a VM foi o Proxmox.
 
-
-
 Abaixo temos a informação do sistema operacional principal e suas partições:
 
-
-
-!\[lsblk1](../Imagens/lsblk\_vm1.png)
-
-
+!\[lsblk1](../Imagens/lsblk_vm1.png)
 
 sda1 - Bios\_boot
 
