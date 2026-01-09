@@ -6,7 +6,7 @@ Abaixo temos a informação do sistema operacional principal e suas partições:
 
 
 
-!\[lsblk1](../Imagens/lsblk\_vm1.png)
+!\[lsblk1](/Imagens/lsblk\_vm1.png)
 
 
 
