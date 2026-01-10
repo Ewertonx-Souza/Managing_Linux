@@ -4,7 +4,7 @@ Abaixo, temos a informação do sistema operacional principal e suas partições
 
 ![jobdelete](../Imagens/Particionamento/lsblk_vm1.png)
 
-sda1 - Bios_boot
+sda1 - Bios_boot 
 
 sda2 - Root filesystem
 
