@@ -188,6 +188,7 @@ CRIAÇÃO
 * print 
 
 FORMATAÇÃO
+
 *sudo mkfs.ext4 /dev/sda3
 
 ![newboot](../Imagens/Particionamento/boot_criado.png)
