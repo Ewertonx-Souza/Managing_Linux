@@ -165,7 +165,7 @@ Dessa forma, com a VM rescue criada e anexado o disco a VM principal, a VM deve 
 
 
 
-![rescuelsblk](../Imagens/Particionamento/lsblk_rescue.png)
+![rescuelsblk](../Imagens/Particionamento/lsblk_vm1.png)
 
 
 
