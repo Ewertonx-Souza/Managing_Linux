@@ -201,7 +201,38 @@ Agora, será feito o reajuste do filesystem.
 
 ![filesystem](../Imagens/Particionamento/reajuste_filesystem.png)
 
-Depois de todo esse processo, é preciso montar o root filesystem e fazer as devidas configurações para tornar a nova partição bootável. Entretanto, ocorreu um erro de integridade do root filesystem que não me permitiu montar a partição. Não foi tirado print do erro, mas basicamente, devido a ordem errada do processo, causou essa falha. Na criação de uma nova partição a onde se faz necessário o redimensionamento de uma outra partição, o processo é redimensionar o filesystem e depois redimensionar a partição.O sistema de arquivos (como NTFS, ext4, etc.) gerencia onde os dados estão localizados dentro do espaço de armazenamento. Ele tem metadados que descrevem a estrutura e a localização dos arquivos.Se você diminuir a partição (o contêiner físico ou lógico) primeiro, sem reduzir o sistema de arquivos, a nova borda da partição pode cortar o meio dos dados existentes. Isso torna o sistema de arquivos quebrado e inutilizável, resultando em perda de dados.Ao diminuir o sistema de arquivos primeiro, a ferramenta move todos os dados para o início do espaço disponível e ajusta a estrutura de dados (metadados) para refletir o novo tamanho menor. Isso garante que todos os dados permaneçam intactos e acessíveis antes que o contêiner subjacente seja reduzido para corresponder. Por algum motivo não identificado, o reajuste com "sudo e2fsck -f" e "sudo resize2fs' foi bem sucedido, mas na hora de utilizar o sistema de arquivos, não funcionou. Como não funcionaou, foi utilizado novamente o "sudo e2fsck -f". a partir da segunda tentativa de utilizar, já começou da erro também.
+Depois de todo esse processo, é preciso montar o root filesystem e fazer as devidas configurações para tornar a nova partição bootável.  Entretanto, ocorreu um erro de integridade do root filesystem que não me permitiu montar a partição. Não foi tirado print do erro, mas basicamente, devido a ordem errada do processo, causou essa falha. Na criação de uma nova partição a onde se faz necessário o redimensionamento de uma outra partição, o processo é redimensionar o filesystem e depois redimensionar a partição.  O sistema de arquivos (como NTFS, ext4, etc.) gerencia onde os dados estão localizados dentro do espaço de armazenamento. Ele tem metadados que descrevem a estrutura e a localização dos arquivos. Se você diminuir a partição (o contêiner físico ou lógico) primeiro, sem reduzir o sistema de arquivos, a nova borda da partição pode cortar o meio dos dados existentes.  Isso torna o sistema de arquivos quebrado e inutilizável, resultando em perda de dados.Ao diminuir o sistema de arquivos primeiro, a ferramenta move todos os dados para o início do espaço disponível e ajusta a estrutura de dados (metadados) para refletir o novo tamanho menor.  Isso garante que todos os dados permaneçam intactos e acessíveis antes que o contêiner subjacente seja reduzido para corresponder.  Por algum motivo não identificado, o reajuste com "sudo e2fsck -f" e "sudo resize2fs' foi bem sucedido, mesmo fazendo o processo de forma ao contrária, porque o "e2fsck" não valida limites físicos da partição, ele valida:
+-superblock
+-bitmap
+-inode tables
+-links
+-contadores
+
+Se os metodos ainda estiverem coerentes entre si, ele pode finalizar sem erro, marcar problemas como corrigos e não perceber imediatamente que o final do fs foi truncado. 
+
+Por que os erros só apareceram depois (mount, size mismatch, etc)?
+
+Porque:
+-O ext4 grava metadados ao longo do disco
+
+-Algumas estruturas (journals, backup superblocks) ficam:
+---no final do filesystem ou em posições fixas relativas ao tamanho antigo
+
+-Quando o kernel tenta montar:
+---Ele lê superblocks secundários
+---Ele confere tamanho esperado × device real
+
+-Aí surgem mensagens tipo:
+---filesystem size mismatch
+---bad superblock
+---journal error
+---mount: wrong fs type or bad option
+
+Ou seja:
+
+o problema já estava lá, só ainda não tinha sido “ativado”.
+
+Agora, tentando utilizar o "e2fsck" ele começa a dar erro, pois o comando já começou a localizar as falhas. 
 
 ![e2fsck](../Imagens/Particionamento/erro_e2fsck.png)
 
