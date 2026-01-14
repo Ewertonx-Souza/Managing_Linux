@@ -169,5 +169,46 @@ Dessa forma, com a VM rescue criada e anexado o disco a VM principal, a VM deve 
 
 
 
-Na imagem, é possível ver que  os mesmo discos e partições da VM rescue é o da VM principal.
+Na imagem, é possível ver que os mesmos discos e partições da VM rescue é o da VM principal. Dessa forma, podemos seguir com o processo de particionar o disco. Usaremos os seguintes comandos:
+
+* sudo parted /dev/sda - Utilitário para gerenciar particionamento de discos rígidos.
+* print - Visualizar as partições. 
+* resizepart 2 40GB - Redimensionar a partição, o dois é informando qual partição e o quarenta é o tamanho solicitado.
+
+
+![parted](../Imagens/Particionamento/redimensionamento_particao.png)
+
+Após isso, criaremos a partição e formataremos usando os seguintes comandos:
+
+CRIAÇÃO
+* sudo parted /dev/das
+* mkpart primary ext4 40GB 100%
+* set 3 boot on 
+* print 
+
+FORMATAÇÃO
+*sudo mkfs.ext4 /dev/sda3
+
+![newboot](../Imagens/Particionamento/boot_criado.png)
+
+Agora, será feito o reajuste do filesystem.
+
+* sudo e2fsck -f /dev/sda2 - Verificar integridade 
+* sudo resize2fs /dev/sd2 39G - Redimensionar o filesystem 
+
+![filesystem](../Imagens/Particionamento/reajuste_filsystem.png)
+
+Depois de todo esse processo, é preciso montar o root filesystem e fazer as devidas configurações para tornar a nova partição bootável. Entretanto, ocorreu um erro de integridade do root filesystem que não me permitiu montar a partição. Não foi tirado print do erro, mas basicamente, devido a ordem errada do processo, causou essa falha. Na criação de uma nova partição a onde se faz necessário o redimensionamento de uma outra partição, o processo é redimensionar o filesystem e depois redimensionar a partição.O sistema de arquivos (como NTFS, ext4, etc.) gerencia onde os dados estão localizados dentro do espaço de armazenamento. Ele tem metadados que descrevem a estrutura e a localização dos arquivos.Se você diminuir a partição (o contêiner físico ou lógico) primeiro, sem reduzir o sistema de arquivos, a nova borda da partição pode cortar o meio dos dados existentes. Isso torna o sistema de arquivos quebrado e inutilizável, resultando em perda de dados.Ao diminuir o sistema de arquivos primeiro, a ferramenta move todos os dados para o início do espaço disponível e ajusta a estrutura de dados (metadados) para refletir o novo tamanho menor. Isso garante que todos os dados permaneçam intactos e acessíveis antes que o contêiner subjacente seja reduzido para corresponder. Por algum motivo não identificado, o reajuste com "sudo e2fsck -f" e "sudo resize2fs' foi bem sucedido, mas na hora de utilizar o sistema de arquivos, não funcionou. Como não funcionaou, foi utilizado novamente o "sudo e2fsck -f". a partir da segunda tentativa de utilizar, já começou da erro também.
+
+![e2fsck](../Imagens/Particionamento/erro_e2fsck.png)
+
+Foi feito um novo redimensionamento, excluído a nova partição (SDA3) e crescendo a partição root (SDA2) para o tamanho original e feito a verificação de integridade. 
+
+![e2fsck](../Imagens/Particionamento/novo_reajuste.png)
+
+Realizado todo o processo novamente, mas na ordem correta, reajuste de filesystem, redimensionamento da partição SDA2 e criação e formatação da partição SDA3. Porém o erro na hora montagem do root filesystem o problema persistiu 
+
+![e2fsck](../Imagens/Particionamento/erro_persiste.png)
+
+
 
