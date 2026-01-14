@@ -178,6 +178,7 @@ Na imagem, é possível ver que os mesmos discos e partições da VM rescue é o
 
 ![parted](../Imagens/Particionamento/redimensionando_particao.png)
 
+
 Após isso, criaremos a partição e formataremos usando os seguintes comandos:
 
 CRIAÇÃO
@@ -190,6 +191,7 @@ FORMATAÇÃO
 *sudo mkfs.ext4 /dev/sda3
 
 ![newboot](../Imagens/Particionamento/boot_criado.png)
+
 
 Agora, será feito o reajuste do filesystem.
 
