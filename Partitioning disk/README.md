@@ -247,5 +247,8 @@ Realizado todo o processo novamente, mas na ordem correta, reajuste de filesyste
 
 Devido a persistência do erro, decidi formatar o root filesystem. Após a formatação, identifiquei que perdi o sistema operacional, pois ao formatar a partição com root, ele cria novo sistema de arquivo na qual o superblock principal, superblocks de backup, inodes, bitmap de blocos, diretório raiz (/)j ournaling antigo são apagados. O disco vira um filesystem novo, vazio, cujo único diretório inicial é: lost+found. O sistema "morreu" porque o Linux depende de milhares de arquivos críticos no root filesystem, por exemplo: /bin/bash, /sbin/init ou /usr/lib/systemd/systemd, /lib, /lib64, /etc/fstab, /boot (dependendo da topologia), /usr. Então, ao tentar bootar O kernel até pode carregar, mas o initramfs tenta montar / e não encontra /sbin/init. O resultado é o modo de recuperação / kernel panic / emergency. Mediante a isso, foi criado uma nova vm e feito todos os passos já documentados a cima e seguindo a ordem correta de diminuir o filesystem primeiro e depois a partição. A partir de agora, as imagens passaram a mostrar o disco de 70GB. 
 
+Agora com todo o processo correto, a montagem da partição funcionou.
+
+![mount](../Imagens/Particionamento/mount_correto.png)
 
 
