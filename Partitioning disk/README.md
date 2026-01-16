@@ -269,3 +269,70 @@ Criado a nova partição.
 
 ![newpart](../Imagens/Particionamento/new_partition.png)
 
+Montando SDA2.
+
+* sudo mount /dev/sda2 /mnt
+
+![mount](../Imagens/Particionamento/mount_correto.png)
+
+Agora o /mnt é igual /. Pode se observar que o /boot está listado na partição montada, dentro do dirtório raiz (/).
+
+A partir disso, se faz necessário montar a nova partição (sda3) no diretório /boot. Entretanto, sempre que uma partição é montada em um diretório, caso esse diretório tenha algum conteúdo ele será ocultado. Nesse caso, antes de efetuar a montagem, iremos criar um novo diretório, montar a nova partição (sda3) nesse diretório criado e copiar o conteúdo de /boot para a novo diretório.
+
+* mkdir /mnt/newboot
+* sudo mount /dev/sda3 /mnt/newboot
+* sudo cp -a /mnt/boot/* /mnt/newboot
+* sudo umount /mnt/newboot
+* sudo mount /dev/sda3 /mnt/boot
+
+![mountsda3](../Imagens/Particionamento/mount_sda3.png)
+
+Finalizando esse processo, entraremos na etapa de configurar o fstab e utilizar o chroot que tem como objetivo a principal função do chroot (change root directory) é alterar o diretório raiz percebido para o processo atual e seus filhos.
+
+* sudo mount /dev/sda2 /mnt - Já está montado 
+* sudo mount /dev/sda3 /mnt/boot - Já está montado
+* sudo nano /mnt/etc/fstab - Editar fstab
+* Informação do fstab = /dev/sda3   /boot   ext4   defaults   0   2
+
+O que cada campo significa:
+
+-/dev/sda3  → dispositivo
+-/boot     → ponto de montagem
+-ext4      → filesystem
+-defaults  → opções padrão
+-0         → dump (ignorado)
+-2         → fsck (verificado após /)
+
+![fstab](../Imagens/Particionamento/refresh_fstab.png)
+
+Chroot 
+
+Objetivo: Entrar no sistema instalado como se tivesse bootado normalmente, para corrigir o GRUB. 
+
+Esses comandos "emprestam" recursos do LIVECD para o sistema instalado.
+
+* sudo mount --bind /dev  /mnt/dev
+* sudo mount --bind /proc /mnt/proc
+* sudo mount --bind /sys  /mnt/sys
+
+Entrar no chroot e executar os seguintes comandos:
+
+* sudo chroot /mnt - Entrar no chroot
+* grub-install /dev/sda - Reinstalar GRUB 
+* update-grub - Atualizar GRUB
+* exit - Sair do chroot 
+
+Desmontar tudo, em ordem.
+
+* sudo umount /mnt/boot
+* sudo umount /mnt/dev
+* sudo umount /mnt/proc
+* sudo umount /mnt/sys
+* sudo umount /mnt
+
+![chroot](../Imagens/Particionamento/chroot.png)
+
+Desligue a VM rescue e entre na VM principal. 
+
+![started](../Imagens/Particionamento/started_VM1.png)
+
