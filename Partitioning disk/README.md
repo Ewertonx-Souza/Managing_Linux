@@ -340,5 +340,5 @@ Verificar nova partição na VM principal.
 
 * lsblk
 
-![started](../Imagens/Particionamento/created_boot_vm1.png)
+![created](../Imagens/Particionamento/created_boot.png)
 
