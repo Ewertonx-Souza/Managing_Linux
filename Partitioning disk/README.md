@@ -334,5 +334,5 @@ Desmontar tudo, em ordem.
 
 Desligue a VM rescue e entre na VM principal. 
 
-![started](../Imagens/Particionamento/started_VM1.png)
+![started](../Imagens/Particionamento/started_vm1.png)
 
