@@ -336,3 +336,9 @@ Desligue a VM rescue e entre na VM principal.
 
 ![started](../Imagens/Particionamento/started_vm1.png)
 
+Verificar nova partição na VM principal. 
+
+* lsblk
+
+![started](../Imagens/Particionamento/created_boot_vm1.png)
+
