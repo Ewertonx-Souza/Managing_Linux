@@ -43,13 +43,16 @@ O Apache ele roda com um usuário específico, que é o "www-data". E para ele c
 
 chown = change owner
 Serve para alterar:
+
 --Usuário dono
+
 --Grupo dono
 
 * sudo chmod -R 755 /var/www/site-amiga
 
 chmod = change mode
 Serve para alterar:
+
 --Permissões de leitura, escrita e execução
 
 (imagem)
@@ -71,7 +74,7 @@ Ao executar o primeiro comando, ocorreu algum erros e o Linux apontou para coman
 
 (imagem)
 
-Com as orientações passadas pelo próprio sistema, foi identificado erro de syntaxe na terceira linha do virtual host. Identificado que a palavra "DocumentRoot" estava com o "R" de root em minúsculo e o ""<VirtualHost>"" faltou um barra, sendo ""</VirtualHost>"" . O suficiente para o comando de ativação do site não funcionar. outra forma de ser mais acertivo a onde está os erros da syntaxe, ao idenficar que o erro é por causa disso, é utilizando o comando "sudo apache2ctl configtest' que vai deixar explicito as linhas de erro. No caso desse homelab foi a linha 3 e 18. 
+Com as orientações passadas pelo próprio sistema, foi identificado erro de syntaxe na terceira linha do virtual host. Identificado que a palavra "DocumentRoot" estava com o "R" de root em minúsculo e o VirtualHost faltou um barra, sendo /VirtualHost. O suficiente para o comando de ativação do site não funcionar. outra forma de ser mais acertivo a onde está os erros da syntaxe, ao idenficar que o erro é por causa disso, é utilizando o comando "sudo apache2ctl configtest' que vai deixar explicito as linhas de erro. No caso desse homelab foi a linha 3 e 18. 
 
 (imagem)
 
