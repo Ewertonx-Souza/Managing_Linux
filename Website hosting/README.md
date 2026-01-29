@@ -100,6 +100,14 @@ Testando o acesso do site localmente.
 
 (imagem)
 
+Validado o funcionamento do site localmente, o teste foi feito em uma outra VM Debian, com interface gráfica utilizando o Chrome.
+
+(imagem)
+
+Testando pelo shell.
+
+(imagem)
+
 
 
 
