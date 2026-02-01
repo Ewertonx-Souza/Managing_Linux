@@ -1,112 +1,76 @@
-Nesse homelab iremos hospedar um site em um servidor web, que é o Apache utilizando o Ubuntu Server. O projeto que será armazenado no Apache se trata de um site climatico, na qual ao inserir a cidade, ele trará as informações do clima da região. O site é estático, utilizando apenas HTML e CSS e não possui banco de dados ou outras aplicações. Dessa forma, apenas uma VM será o suficiente para entender como funciona o serviço Apache. Antes de qualquer coisa, caso Apache não esteja instalado rode os seguintes comamdos:
+Documentação de Homelab: Hospedagem de Site Estático com Apache no Ubuntu Server 
 
-* sudo apt udpdate
-* sudo apt install apache -y
+Este projeto descreve a hospedagem de uma aplicação web de consulta climática utilizando o servidor web Apache em ambiente Ubuntu Server. O site é uma aplicação estática (HTML/CSS) que consome dados de clima via API, não demandando banco de dados local. O objetivo é demonstrar a configuração de Virtual Hosts e o fluxo de deploy básico em uma VM.
 
-Depois de instalado o serviço web, validar a funcionalidade do serviço com o systemctl, utilitário do systemd:
+ 1. Instalação e Verificação do Serviço
+Caso o Apache não esteja instalado, execute os comandos abaixo para atualizar os repositórios e instalar o pacote:
+
+* sudo apt update
+* sudo apt install apache2 -y
+
+Após a instalação, valide o status do serviço utilizando o utilitário systemctl: 
 
 * sudo systemctl status apache2
 
-(imagem)
+ 2. Ajuste de Sincronização de Horário (NTP)
 
-Inicialmente já foi identificado o fuso horário diferente, que pode afetar na hora de verificações de logs e analises sobre o serviço. O fuso horário está em UTC, é o padrão de tempo comumente usado para determinar os horários locais em todo o mundo. Dessa forma, vamos fazer os devidos ajustes para ficar no fuso horário do Brasil.
+Durante a análise inicial, identificou-se que o fuso horário estava configurado como UTC. Para garantir a precisão dos logs e auditorias do serviço, alteramos para o fuso horário brasileiro (America/Sao_Paulo).
 
-* timedatectl - Horário atual
+* Verificar horário atual: timedatectl
 
-(imagem)
+* Listar zonas disponíveis: timedatectl list-timezones
 
-* timedatectl list-timezones -  Lista zonas disponíveis
+* Configurar fuso horário: sudo timedatectl set-timezone America/Sao_Paulo
 
-(imagem) 
+* Ativar sincronização NTP: sudo timedatectl set-ntp true
 
-* sudo timedatectl set-timezone America/Sao_Paulo - Fuso horário escolhido
-* sudo timedatectl set-ntp true - Ativar NTP
-* sudo timedatectl set-ntp false - Desativar NTP, se quiser
+ 3. Deploy do Projeto via Git
 
-(imagem)
+Com o ambiente preparado, realizamos o clone do repositório público hospedado no GitHub para o diretório de arquivos web do Linux.
 
-Feito os ajustes necessários para dar continuidade na hospedagem do site, agora é preciso trazer o site criado para a máquina local. O arquivo desse site está hospedado no github e é de visualização pública. A principio o git já está instalado no Ubuntu server. Mas se for necessário instalar, rode:
-
-* sudo apt update
-* sudo apt install git -y
-
-A partir disso, iremos clonar o arquivo do site do github para o diretório padrão do Linux para armazenar arquivos web. 
-
-* cd /var/www - Diretório padrão para arquivo web
+* cd /var/www
 * sudo git clone https://github.com/EmilyBirschner/Projeto-App-Clima.git
 
-(imagem)
+Ajuste de Permissões e Propriedade:
+O Apache utiliza o usuário www-data para processar requisições. É necessário ajustar o proprietário e as permissões das pastas para que o servidor consiga ler os arquivos corretamente.
 
-O Apache ele roda com um usuário específico, que é o "www-data". E para ele conseguir ler arquivos do site e as vezes escrever o sistema de permissões do Linux precisa permitir.
+Alterar proprietário (Owner): sudo chown -R www-data:www-data /var/www/Projeto-App-Clima
 
-* sudo chown -R www-data:www-data /var/www/Projeto-App-Clima
+Alterar permissões (Mode): sudo chmod -R 755 /var/www/Projeto-App-Clima (Garante leitura e execução para o grupo/outros e escrita para o dono).
 
-chown = change owner
-Serve para alterar:
+ 4. Configuração do Virtual Host
+O Virtual Host permite hospedar múltiplos domínios em um único servidor, direcionando o tráfego para o diretório específico de cada projeto. Criamos um novo arquivo de configuração em /etc/apache2/sites-available/.
 
---Usuário dono
+* sudo nano /etc/apache2/sites-available/site-clima.conf
 
---Grupo dono
+Resolução de Erros de Sintaxe:
+Ao tentar habilitar o site, o sistema apontou erros de configuração. Para diagnosticar com precisão, utilizou-se o comando: 
 
-* sudo chmod -R 755 /var/www/site-amiga
+* sudo apache2ctl configtest
 
-chmod = change mode
-Serve para alterar:
+Erros identificados e corrigidos:
 
---Permissões de leitura, escrita e execução
+Case Sensitivity: A diretiva DocumentRoot estava escrita com "r" minúsculo.
 
-(imagem)
+Tag de fechamento: Faltava a barra de fechamento na tag </VirtualHost>.
 
-Tudo que for hospedado no Apache, precisa de um virtual host. Virtual hosta é um recurso que permite hospedar múltiplos sites ou domínios (ex: site1.com, site2.com) em um único servidor físico ou virtual. Essa funcionalidade otimiza recursos (RAM, CPU, IP), permitindo que o Apache direcione cada requisição ao diretório correto do projeto, baseando-se no nome do domínio acessado. Será criado um em /etc/apache2/sites-available/.
+Caracteres Inválidos: A palavra "Apache" foi inserida indevidamente no início do arquivo de configuração, fora das tags.
 
-* sudo nano etc/apache2/sites/available/site-clima
+Após as correções, o configtest retornou Syntax OK.
 
-(imagem)
+ 5. Ativação do Site e Testes
+Com a sintaxe corrigida, procedemos com a desativação do site padrão (default) e ativação do novo projeto:
 
-(imagem)
+* sudo a2ensite site-clima.conf
+* sudo a2dissite 000-default.conf
+* sudo systemctl reload apache2
 
-Após inserir as informações dentro do virtual hosta. O site web deve ser ativado e o site default desativado.
+Validação:
+Para testar o acesso localmente via terminal: curl http://localhost
 
-* sudo a2ensite site-amiga.conf - Ativar o arquivo
-* sudo a2dissite 000-default.conf - desativar arquivo
+Para validação externa, utilizamos uma VM Debian com interface gráfica e navegador Chrome, acessando o IP do servidor:
 
-Ao executar o primeiro comando, ocorreu algum erros e o Linux apontou para comandos a serem utilizados para encontrar o motivo do erro. 
-
-(imagem)
-
-Com as orientações passadas pelo próprio sistema, foi identificado erro de syntaxe na terceira linha do virtual host. Identificado que a palavra "DocumentRoot" estava com o "R" de root em minúsculo e o VirtualHost faltou um barra, sendo /VirtualHost. O suficiente para o comando de ativação do site não funcionar. outra forma de ser mais acertivo a onde está os erros da syntaxe, ao idenficar que o erro é por causa disso, é utilizando o comando "sudo apache2ctl configtest' que vai deixar explicito as linhas de erro. No caso desse homelab foi a linha 3 e 18. 
-
-(imagem)
-
-Feito as configurações, mas ao rodar "sudo apache2ctl configtest" novamente ele deu um informando que palavra "Apache" antes de começar a syntaxe do virtual host não faz parte do script. 
-
-(imagem)
-
-Retirado a palavra "apache" do incio da syntaxe.
-
-(imagem)
-
-Syntaxe agora funcionando corretamente.
-
-(imagem)
-
-Agora sim, executar os comandos de ativação do site web e desativação do site default.
-
-(imagem)
-
-Testando o acesso do site localmente.
-
-* curl http://localhost
-
-(imagem)
-
-Validado o funcionamento do site localmente, o teste foi feito em uma outra VM Debian, com interface gráfica utilizando o Chrome.
-
-(imagem)
-
-Testando pelo shell.
-
-(imagem)
+Também foi realizado o teste de conectividade via shell em outra máquina da rede para confirmar a disponibilidade do serviço.
 
 
 
