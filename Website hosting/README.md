@@ -6,7 +6,7 @@ Este projeto descreve a hospedagem de uma aplicação web de consulta climática
 Caso o Apache não esteja instalado, execute os comandos abaixo para atualizar os repositórios e instalar o pacote:
 
 * sudo apt update
-* sudo apt install apache2 -y
+* sudo apt install apache2 -y 
 
 Após a instalação, valide o status do serviço utilizando o utilitário systemctl: 
 
