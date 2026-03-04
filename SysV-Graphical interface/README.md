@@ -77,10 +77,38 @@ Com esse comando, o serviço slim localizado em /etc/init.d/slim será desativad
 * ls etc/rc2.d | grep slim
 * ls etc/rc3.d | grep slim
 
-![disable](../Imagens/Runlevel-DisplayManager/killer_displaymanager.png)
+!killer](../Imagens/Runlevel-DisplayManager/killer_displaymanager.png)
 
 Como o nome do arquivo inicia com K, é constatado que o serviço não será executado na incialização. 
 
-Após o reboot do sistem, ela inciará como modo texto.
+Após o reboot do sistema, ela inciará como modo texto.
 
-![disable](../Imagens/Runlevel-DisplayManager/no_display.png)
+![display](../Imagens/Runlevel-DisplayManager/no_display.png)
+
+Acessado /etc/inittab sem interface gráfica:
+
+![still](../Imagens/Runlevel-DisplayManager/still_runlevel2.png)
+
+Nota técnica: Como o serviço slim em /etc/init.d/slim foi desativado, consequentemente todos os runlevels que possuem link simbólico direcionando para esse caminho, irão incializar sem interface gráfica. 
+
+ 7. Destivando a interface gráfica apenas de um runlevel.
+
+Para desativar a interface gráfica apenas de um único runlevel, se utiliza o comando: 
+
+* sudo update-rc.d slim disable - ativar display manager.
+* ls etc/rc3.d | grep slim e ls etc/rc2.d | grep slim - Verificar se ambos runlevels estão com o serviço habilitado novamente.
+* sudo update-rc.d slim disable 3 - Desabilitar o serviço slim de apenas um runlevel.
+
+![change single](../Imagens/Runlevel-DisplayManager/change_single_runlevel3.png)
+
+Após essas alterações, ao dar reboot na máquina com ela no runlevel 2 (alterar em /etc/inittab), ela iniciará com a interface gráfica. 
+
+![up](../Imagens/Runlevel-DisplayManager/enable_displaymanager_runlevel2.png)
+
+confirmando runlevel:
+
+![up](../Imagens/Runlevel-DisplayManager/display_up_N2.png)
+
+Alterando /etc/inittab novamente para runlevel 3 e reiniciando a máquina, ela inciará em modo texto.
+
+![down](../Imagens/Runlevel-DisplayManager/display_down_N3.png)
