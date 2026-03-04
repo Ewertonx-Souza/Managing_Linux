@@ -1,4 +1,4 @@
-Laboratório: Desabilitar a interface gráfica Devuan
+Laboratório: Desabilitar a interface gráfica Devuan 
 
 Esse laboratório descreve o processo e analise de como funciona o SystemV init e seus runlevels. 
 
