@@ -11,7 +11,7 @@ Para visualizar o contéudo dentro de /etc/inittab utiliza-se o comando:
  ![nano](../Imagens/Runlevel-DisplayManager/inittab.png)
 
 
- 2. Análise da Saída nano/cat. Com base na execução do comando, identificamos as seguintes syntaxe:
+ 2. Análise e entendimento da saída nano/cat. Com base na execução do comando, identificamos as seguintes syntaxe:
 
 id:2:initdefault: - Informa ao systemv quando será o runlevel padrão atual.
 
@@ -19,7 +19,7 @@ si::sysinit:/etc/init.d/rc2 - O rcS serve como o primeiro script de controle exe
 
 12:2:wait:/etc/init/rc 2 - rc 2 é o runlevel na qual vai ser executado seus arquivos de serviços que definem o ambiente. 
 
-Quando o systemV executa o rc 2, ele entende que deve ir até o diretório /etc/rc2.d e executar os scripts ali encontrados. Mas essa execução não é deliberada, existe ordens do que "matar" e do iniciar. Com o comando:
+Quando o systemV olha para o /etc/init/rc 2, ele entende que deve ir até o diretório /etc/rc2.d e executar os scripts ali encontrados. Mas essa execução não é deliberada, existe ordens do que "matar" e do que deve iniciar. Com o comando:
 
 * ls -l /etc | grep rc
 
@@ -27,4 +27,9 @@ Quando o systemV executa o rc 2, ele entende que deve ir até o diretório /etc/
 
 ![preparando imagem](../Imagens/Runlevel-isplayManager/inittab.png)
 
+rc2.d (Runlevel atual):
+
+![preparando imagem](../Imagens/Runlevel-isplayManager/inittab.png)
+
+Dentro de rc2.d é possível visualizar todos os arquivos de serviço. Pode-se perceber que o nome dos arquivos começam com K (kill)e depois mudam para S (Start). Isso significa que primeiro o systemV identifica primeiro os serviços que NÃO devem ser executados e depois os que devem inicializar. Esses arquivos também segue uma ordem de numeração, qual é do maior para o menor. Por exemplo a ordem do rc2.d começa com 01, 02, 03, 04 e 05. Mas um ponto muito importante desses arquivos é que todos eles são links simbólicos. Esses links simbólicos direcionam o sistema para o arquivo de serviço real, que fica localizado e, /etc/init.d
 
