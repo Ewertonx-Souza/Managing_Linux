@@ -25,7 +25,7 @@ Quando o systemV olha para o /etc/init/rc 2, ele entende que deve ir até o dire
 
 É possível ver todos os runlevels e dentro deles possuem os arquivos de serviços necessários para ambiente, definido pelo administrador .
 
-![rc.d](../Imagens/Runlevel-DisplayManager/rd.d.png)
+![rc.d](../Imagens/Runlevel-DisplayManager/rc.d.png)
 
 rc2.d (Runlevel atual):
 
