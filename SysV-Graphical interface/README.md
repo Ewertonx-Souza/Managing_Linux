@@ -15,7 +15,7 @@ Para visualizar o contéudo dentro de /etc/inittab utiliza-se o comando:
 
 id:2:initdefault: - Informa ao systemv qual será o runlevel padrão atual.
 
-si::sysinit:/etc/init.d/rc2 - O rcS serve como o primeiro script de controle executado pelo processo init. Sendo responsável por configurar o ambiente básico antes que o usuário possa interagir com o sistema.
+si::sysinit:/etc/init.d/rcS - O rcS serve como o primeiro script de controle executado pelo processo init. Sendo responsável por configurar o ambiente básico antes que o usuário possa interagir com o sistema.
 
 12:2:wait:/etc/init/rc 2 - rc 2 é o runlevel na qual vai ser executado seus arquivos de serviços que definem o ambiente. 
 
