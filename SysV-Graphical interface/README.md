@@ -95,7 +95,7 @@ Nota técnica: Como o serviço slim em /etc/init.d/slim foi desativado, conseque
 
 Para desativar a interface gráfica apenas de um único runlevel, se utiliza o comando: 
 
-* sudo update-rc.d slim disable - ativar display manager.
+* sudo update-rc.d slim enable - ativar display manager.
 * ls etc/rc3.d | grep slim e ls etc/rc2.d | grep slim - Verificar se ambos runlevels estão com o serviço habilitado novamente.
 * sudo update-rc.d slim disable 3 - Desabilitar o serviço slim de apenas um runlevel.
 
