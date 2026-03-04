@@ -13,7 +13,7 @@ Para visualizar o contéudo dentro de /etc/inittab utiliza-se o comando:
 
  2. Análise e entendimento da saída nano/cat. Com base na execução do comando, identificamos as seguintes syntaxe:
 
-id:2:initdefault: - Informa ao systemv quando será o runlevel padrão atual.
+id:2:initdefault: - Informa ao systemv qual será o runlevel padrão atual.
 
 si::sysinit:/etc/init.d/rc2 - O rcS serve como o primeiro script de controle executado pelo processo init. Sendo responsável por configurar o ambiente básico antes que o usuário possa interagir com o sistema.
 
