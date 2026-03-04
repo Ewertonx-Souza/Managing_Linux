@@ -17,9 +17,9 @@ id:2:initdefault: - Informa ao systemv qual será o runlevel padrão atual.
 
 si::sysinit:/etc/init.d/rcS - O rcS serve como o primeiro script de controle executado pelo processo init. Sendo responsável por configurar o ambiente básico antes que o usuário possa interagir com o sistema.
 
-12:2:wait:/etc/init/rc 2 - rc 2 é o runlevel na qual vai ser executado seus arquivos de serviços que definem o ambiente. 
+12:2:wait:/etc/init.d/rc 2 - rc 2 é o runlevel na qual vai ser executado seus arquivos de serviços que definem o ambiente. 
 
-Quando o systemV olha para o /etc/init/rc 2, ele entende que deve ir até o diretório /etc/rc2.d e executar os scripts ali encontrados. Mas essa execução não é deliberada, existe ordens do que "matar" e do que deve iniciar. Com o comando:
+Quando o systemV olha para o /etc/init.d/rc 2, ele entende que deve ir até o diretório /etc/rc2.d e executar os scripts ali encontrados. Mas essa execução não é deliberada, existe ordens do que "matar" e do que deve iniciar. Com o comando:
 
 * ls -l /etc | grep rc
 
