@@ -7,3 +7,5 @@ Esse laboratório descreve o processo e analise de como funciona o System V init
 Para visualizar o contéudo dentro de /etc/inittab utiliza-se o comando:
 
 * sudo nano /etc/inittab ou cat /etc/inittab
+
+ ![nano](../Imagens/Runlevel-displayManager/inittab.png)
