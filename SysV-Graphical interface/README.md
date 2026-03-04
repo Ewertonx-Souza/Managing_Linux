@@ -2,7 +2,7 @@ Laboratório: Desabilitar a interface gráfica Devuan
 
 Esse laboratório descreve o processo e analise de como funciona o SystemV init e seus runlevels. 
 
- 1. Conceitos fundamentais: O systemV é o primeiro processo (PID 1) executado e atráves dele os demais processos e serviços são executados e gerenciados. Quando o Kernel invoca o programa localizado em /sbin/init, o systemV localiza o diretório /etc/inittab e executa os scripts ali descritos. Esse script define qual runlevel será utilizado e seus serviços necessários. Runlevels resumidamente são estados operacionais (iniciando, multusuário, gráfico, etc.) do sistema. Eles agrupam serviços para definir o que carrega, sendo númerados de 0 a 6 e através de links simbólicos, oferecem mais flexibilidade para organizar a inicialização e os serviços.
+ 1. Conceitos fundamentais: O systemV é o primeiro processo (PID 1) executado e atráves dele os demais processos e serviços são executados e gerenciados. Quando o Kernel invoca o programa localizado em /sbin/init, o systemV localiza o diretório /etc/inittab e executa os scripts ali descritos. Esse script define qual runlevel será utilizado e seus serviços necessários. Runlevels resumidamente são estados operacionais (iniciando, multusuário, gráfico, etc.) do sistema. Eles agrupam serviços para definir o que carregar, sendo númerados de 0 a 6 e através de links simbólicos, oferecem mais flexibilidade para organizar a inicialização e os serviços.
 
 Para visualizar o contéudo dentro de /etc/inittab utiliza-se o comando:
 
