@@ -77,7 +77,7 @@ Com esse comando, o serviço slim localizado em /etc/init.d/slim será desativad
 * ls etc/rc2.d | grep slim
 * ls etc/rc3.d | grep slim
 
-!killer](../Imagens/Runlevel-DisplayManager/killer_displaymanager.png)
+![killer](../Imagens/Runlevel-DisplayManager/killer_displaymanager.png)
 
 Como o nome do arquivo inicia com K, é constatado que o serviço não será executado na incialização. 
 
