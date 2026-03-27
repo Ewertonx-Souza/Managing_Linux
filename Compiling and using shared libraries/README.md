@@ -20,18 +20,23 @@ As bibliotecas do sistema seguem o padrão FHS (Filesystem Hierarchy Standard). 
 
 Comandos de exploração:
 
-cd /usr/lib/x86_64-linux-gnu - Navegar até o diretório de bibliotecas de 64 bits
+* cd /usr/lib/x86_64-linux-gnu - Navegar até o diretório de bibliotecas de 64 bits
 
 ![lib](../Imagens/shared_libraries/lib64.png)
 
-# Listar arquivos de objetos compartilhados
-ls -l | grep ".so"
-3. Preparação do Ambiente de Build
+* ls -l -Listar arquivos de objetos compartilhados
+
+![.so](../Imagens/shared_libraries/bibliotecas.png)
+
+ 3. Preparação do Ambiente de Build
+
 Para transformar código em binário, é necessário instalar o conjunto de ferramentas de desenvolvimento (Toolchain).
 
-Bash
-sudo apt update
-sudo apt install build-essential libgtk-3-dev libwebkit2gtk-4.1-dev pkg-config
+* sudo apt update
+* sudo apt install build-essential libgtk-3-dev libwebkit2gtk-4.1-dev pkg-config
+
+![.so](../Imagens/shared_libraries/bibliotecas.png)
+
 Componentes Instalados:
 build-essential: Inclui o gcc (compilador), make e as bibliotecas base da libc.
 
