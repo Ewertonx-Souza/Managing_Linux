@@ -1,94 +1,74 @@
-Laboratório: Craindo código fonte em C e compilando
+Laboratório: Ciclo de Vida do Executável Linux (C, GCC e ELF)
 
-Esse labortário descreve o funcionamento da criação de um código fonte e como ele é tranformado em um executável ELF.
+Este laboratório documenta o processo de criação de código-fonte em linguagem C, a gestão de dependências e a compilação para um executável no formato ELF (Executable and Linkable Format).
 
-1. Conceitos fundamentais: Todo executável no Linux é um código fonte que foi compilado e linkado a bibliotecas compartilhadas ou estáticas. Uma biblioteca compartilha é um conjunto de código pré-compilado reutilizável, carregado na memória e utilizado por múltiplos programas simultaneamente durante a execução. Dessa forma, o executável não fica pesado, por não ter muitas bibliotecas introduzidas nele e o sistema tem uma otimização de recursos. Essas bibliotecas compartilhadas ficam disponíveis em diretórios específicos para que o carregador dinâmico (ld.so ou ld-linux.so) possa localizar e carregá-las na memória.
+ 1. Fundamentos e Arquitetura de Bibliotecas
 
- 2. IDENTIFICANDO BIBLIOTECAS COMPARTILHADAS 
+No ecossistema Linux, um executável resulta da compilação de código-fonte e do seu posterior vínculo (linking) a bibliotecas.
 
-Para visualizar essas bibliotecas compartilhadas, pode-se olhar nos seguintes diretórios:
+Bibliotecas Compartilhadas (.so): São objetos binários carregados em memória apenas quando necessários. Elas permitem que múltiplos programas utilizem o mesmo código simultaneamente, otimizando o uso de RAM e reduzindo o tamanho dos binários em disco.
 
-/lib - Link simbólico para /usr/lib.
-/usr/lib - bibliotecas específicas do sistema.
-/lib64 - Link simbólico para /usr/lib64.
-/usr/lib64 - possui um link simbólico para o carregador dinâmico de 64 bits. 
- 
-* cd /usr/lib/x86_64-linux-gnu - Navedar no diretório que possui arquivos .so de 64 gits
+Carregador Dinâmico (ld.so): Responsável por localizar e mapear essas bibliotecas no espaço de endereçamento do processo durante a execução.
 
-(imagem)
+ 2. Estrutura de Diretórios de Bibliotecas
 
-* ls -l - Visualizar os arquivos .so
+As bibliotecas do sistema seguem o padrão FHS (Filesystem Hierarchy Standard). Para identificar onde residem os objetos compartilhados de 64 bits:
 
-(imagem) 
+/lib64: Link simbólico para /usr/lib64, contém bibliotecas essenciais para o boot.
 
- 3. PREPARANDO AMBIENTE BUILD
- 
-Agora que foi identificado a localização das bibliotecas compartilhadas, será instalado no sistema ferramentas necessárias para um ambiente de build. 
+/usr/lib/x86_64-linux-gnu: Diretório padrão em sistemas baseados em Debian/Ubuntu para bibliotecas de arquitetura específica.
 
-* sudo apt install build-essential libgtk-3-dev libwebkit2gtk-4.1-dev
+Comandos de exploração:
 
-- build-essential
----gcc (compilador C)
----make
----libc dev
-Necessário para compilar qualquer programa em C.
+cd /usr/lib/x86_64-linux-gnu - Navegar até o diretório de bibliotecas de 64 bits
 
-- libgtk-3-dev
----Headers (.h)
----Bibliotecas de desenvolvimento
-Necessário para include.
+![lib](../Imagens/shared_libraries/lib64.png)
 
-- libwebkit2gtk-4.1-dev
----Headers (.h)
----Bibliotecas de desenvolvimento
-Necessário também para include.
+# Listar arquivos de objetos compartilhados
+ls -l | grep ".so"
+3. Preparação do Ambiente de Build
+Para transformar código em binário, é necessário instalar o conjunto de ferramentas de desenvolvimento (Toolchain).
 
-- pkg-config
-Ferramenta que resolve:
-includes
-libs
-flags de compilação
+Bash
+sudo apt update
+sudo apt install build-essential libgtk-3-dev libwebkit2gtk-4.1-dev pkg-config
+Componentes Instalados:
+build-essential: Inclui o gcc (compilador), make e as bibliotecas base da libc.
 
-(imagem)
+libgtk-3-dev & libwebkit2gtk-4.1-dev: Fornecem os headers (.h) e arquivos de desenvolvimento necessários para chamadas de funções gráficas e de renderização web.
 
- 4. PERMISSÃO DE USÚARIO 
+pkg-config: Ferramenta indispensável que automatiza a inserção de flags de compilação e caminhos de bibliotecas para o compilador.
 
-Foi dada as permissões necessárias para o usuário, pois o caminho /home/ewerton/projeto é pertencente ao root.
+4. Gestão de Permissões
+Para garantir que o processo de escrita e compilação ocorra sem conflitos de privilégios no diretório do projeto:
 
-* sudo chown -R ewerton:ewerton /home/ewerton/projeto.
+Bash
+sudo chown -R $USER:$USER /home/ewerton/projeto
+5. Desenvolvimento do Código-Fonte
+O arquivo main.c utiliza a biblioteca GTK para a interface de janela e a WebKitGTK para renderizar o motor de busca do Google. O objetivo aqui é observar como o código faz referência a símbolos externos que serão resolvidos na compilação.
 
-(imagem)  
+6. Compilação e Vinculação (Linking)
+A compilação é realizada invocando o gcc e utilizando o pkg-config para resolver as dependências das bibliotecas gráficas.
 
- 5. CRIAÇÃO DO CÓDIGO FONTE
+Bash
+gcc main.c -o navegador $(pkg-config --cflags --libs gtk+-3.0 webkit2gtk-4.1)
+-o navegador: Define o nome do binário de saída.
 
-Após as instalações dos pacotes necessários para a compilação e dados as permissões necessárias para escrever no diretório, será criado um código fonte simples utilizando GTK (biblioteca gráfica) e webkitGTK (gera o conteúdo web dentro de GTK). O local na qual ficou armazenado o código fonte, foi em /home/ewerton/projeto/main.c. Esse código fonte consiste em criar a interface gráfica e dentro dela ser exibido o google.com. Esse site foi desenvolvido de forma simples apenas para fins de estudos, pois o foco é a compilação e vinculação com as bibliotecas compartilhadas. 
+--cflags: Inclui os caminhos dos cabeçalhos.
 
-(imagem)
+--libs: Indica quais bibliotecas o linker deve associar ao executável.
 
-Código fonte criado:
+7. Execução e Análise de Dependências
+Para executar aplicações gráficas a partir do terminal puro (TTY), é necessário subir o servidor X ou Wayland:
 
-(imagem)
+Bash
+sudo systemctl isolate graphical.target
+./navegador
+Inspeção de Dependências Dinâmicas
+Para validar quais bibliotecas o executável "navegador" está solicitando ao sistema em tempo de execução, utilizamos o comando ldd:
 
- 6. COMPILANDO CÓDIGO FONTE
-
-Criado arquivo .c com código fonte, dado as permissões necessárias para o diretório, é só executar o comando de compilação do script.
-
-* gcc main.c -o navegador $(pkg-config --cflags --libs gtk+-3.0 webkit2gtk-4.1)
-
-(imagem)
-
-Após a execução, dentro do mesmo diretório terá um binário com o nome de "navegador". Esse é o executável criado após a instalção. Para testar o executável, é necessário acessar a interface gráfica do sistema. Dessa forma, será alterado a target do sistema com:
-
-* sudo systemctl isolate graphical.target
-
-E executar o programa e o resultado é o google aparecendo sem a necessidade de utilizar o browser:
-
-(imagem)
-
-ainda no shell linux, é possivel utilizar um comando para poder visualizar todas as bibliotecas que agora o executável faz referências para que ele funcione?
-
-* ldd /home/ewerton/projeto/navegador
-
-(imagem)
+Bash
+ldd /home/ewerton/projeto/navegador
+Este comando exibirá o mapeamento de cada biblioteca .so necessária e o endereço de memória onde o carregador planeja encontrá-la.
 
 
