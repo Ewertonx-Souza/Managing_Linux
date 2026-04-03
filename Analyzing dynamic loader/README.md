@@ -44,13 +44,13 @@ Se a biblioteca for movida para /opt e registrada no ld.so.conf.d, o sistema dev
 
 * sudo mkdir /opt/mylib
 
-(imagem)
+![mkdir](../Imagens/dynamic_linker/mkdir.png)
 
 3.2 - Copiar a biblioteca para /opt/mylib (sem symlink)
 
 * cp /usr/lib/x85_64-linux-gnu/libwebkit2gtk-4.1.so.0 /opt/mylib
 
-(imagem)
+![cp](../Imagens/dynamic_linker/cp_lib.png)
 
 3.3 Registrar diretório
 
@@ -58,12 +58,12 @@ Agora que a biblioteca foi copiada para um novo diretório, é necessário inclu
 
 * echo "/opt/mylib" > /etc/ld.so.conf.d/mylib.conf
 
-(imagem)
+![echo](../Imagens/dynamic_linker/echo.png)
 
 * ldconfig
 * ldd /home/ewerton/projeto/navegador
 
-(imagem)
+![lddnew](../Imagens/dynamic_linker/new_ldd.png)
 
  4. Resultado observado
 
