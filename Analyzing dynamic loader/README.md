@@ -109,6 +109,8 @@ O diretório /opt/mylib já consta dentro de /etc/ld.so.conf.d/.
 
 ![ld](../Imagens/dynamic_linker/ldconfig-p.png)
 
+OBS: O diretório /opt/mylib ficou vazio após o ldconfig.
+
 3.5 - Validando busca do carregador dinâmico
 
 * ldd /home/ewerton/projeto/navegador | grep libwebkit
