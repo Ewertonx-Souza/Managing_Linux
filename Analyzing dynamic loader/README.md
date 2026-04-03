@@ -67,7 +67,7 @@ Agora que a biblioteca foi copiada para um novo diretório, é necessário inclu
 
  4. Resultado observado
 
-O sistema inicialmente reconhece /usr/lib/x85_64-linux-gnu/libwebkit2gtk-4.1.so.0, Pórem ao copiar libwebkit2gtk-4.1.so.0 para /opt/mylib e incluir em /etc/ld.so.conf.d/ um outro caminho a ser seguido para encontrar a biblioteca e utilizar o ldconfig, que é responsável por criar, atualizar e gerenciar links simbólicos e o cache (/etc/ld.so.cache) das bibliotecas compartilhadas (.so) no sistema. Quando é executado novamente o comando ldd, ele trás um outro caminho que agora o carregador dinâmico enxerga em /etc/ld.so.cache.
+O sistema inicialmente reconhece /usr/lib/x85_64-linux-gnu/libwebkit2gtk-4.1.so.0, Porém ao copiar libwebkit2gtk-4.1.so.0 para /opt/mylib e incluir em /etc/ld.so.conf.d/ um outro caminho a ser seguido para encontrar a biblioteca e utilizar o ldconfig, que é responsável por criar, atualizar e gerenciar links simbólicos e o cache (/etc/ld.so.cache) das bibliotecas compartilhadas (.so) no sistema. Quando é executado novamente o comando ldd, ele trás um outro caminho que agora o carregador dinâmico enxerga em /etc/ld.so.cache.
 
 Nota técnica: O arquivo libwebkit2gtk-4.1.so.0 é um link simbólico que aponta para o binário real (libwebkit2gtk-4.1.so.0.19.9). Ao usar o comando cp sem parâmetros adicionais, ele segue o link e copia o conteúdo do arquivo original. Como resultado, em /opt/mylib, você terá um arquivo real nomeado como libwebkit2gtk-4.1.so.0, em vez de manter a estrutura de link simbólico original.
 
