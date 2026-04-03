@@ -143,7 +143,7 @@ O motivo da segunda etapa ocorrer o erro de resolução no gerencimaneto de bibl
 
 -Só o nome do arquivo
 
-Esse é o ponto crítico para resolução no gerenciamento de bibliotecas da errado. O symlink libwebkit2gtk-4.1.so.0 -> libwebkit2gtk-4.1.so.0.19.9 é um caminho relativo, sem o caminho total desse arquivo real. Dessa forma, o sistema entende que o arquivo real se enocntra no mesmo diretório do symlink, que é /usr/lib/x86_64-linux-gnu/. Quando o symlink alternativo (libwebkit2gtk-4.1.so.0) vai para /opt/mylib e o arquivo real não vai junto, então quando o sistema procura por /opt/mylib/libwebkit2gtk-4.1.so.0.19.9 e não encontra, ele ignora essa entrada e segue o caminho normal e confiável (/usr/lib/x86_64-linux-gnu/). 
+Esse é o ponto crítico para resolução no gerenciamento de bibliotecas da errado. O symlink libwebkit2gtk-4.1.so.0 -> libwebkit2gtk-4.1.so.0.19.9 é um caminho relativo, sem o caminho total desse arquivo real. Dessa forma, o sistema entende que o arquivo real se encontra no mesmo diretório do symlink, que é /usr/lib/x86_64-linux-gnu/. Quando o symlink alternativo (libwebkit2gtk-4.1.so.0) vai para /opt/mylib e o arquivo real não vai junto, o sistema procura por /opt/mylib/libwebkit2gtk-4.1.so.0.19.9 e não encontra, ele ignora essa entrada e segue o caminho normal e confiável (/usr/lib/x86_64-linux-gnu/). 
 
 Validando informação da biblioteca libwebkit2gtk-4.1.so.0 usando o comando:
 
