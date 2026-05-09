@@ -71,7 +71,7 @@ A segunda opção foi escolhida para observar o comportamento da rede durante a 
 
 O endereço IP do Proxmox foi alterado para:
 
-192.168.88.200
+- 192.168.88.200
 
 Após a aplicação da nova configuração de rede, a interface web do Proxmox ficou inacessível temporariamente, apresentando timeout no navegador.
  
