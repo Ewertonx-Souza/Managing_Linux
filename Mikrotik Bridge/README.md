@@ -46,6 +46,8 @@ Com a bridge criada e as interfaces físicas adicionadas, também é necessário
 Após a bridge ser criada, identificada com um endereço IP e configurada com as interfaces ether2 e ether3, basta conectar os dispositivos em suas respectivas portas.
 
 O computador utilizado para acessar o Proxmox ficou na faixa:
+
+- 192.168.88.254
  
 ![windowns](../Imagens/Bridge/win_ip.png)
  
