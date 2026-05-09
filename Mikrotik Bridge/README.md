@@ -19,8 +19,11 @@ No MikroTik, a interface ether1 foi configurada como DHCP Client para receber au
 Ao definir a ether1 como DHCP Client, o MikroTik passa a receber automaticamente as configurações necessárias para acesso à internet, como:
 
 Endereço IP
+
 Gateway padrão
+
 DNS
+
 Máscara de rede
 
 Dessa forma, não é necessário realizar essas configurações manualmente.
