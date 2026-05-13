@@ -65,7 +65,7 @@ Outro teste que pode ser feito também, é utilizar o comando passando todo a ex
 O RPM não conseguiu mapear esse arquivo, mesmo passando toda a extensão, pois o shell entregou para o RPM apenas /nano-5.6.1-7.el9.x86_64.rpm e não /home/ewerton/nano-5.6.1-7.el9.x86_64.rpm
 Para que fora, do /home/ewerton o RPM consiga mapear e extrai informações, é necessário passar o caminho completo:
 
-![rpmsuccess](../Imagens/rpm/rpm_success_out.png) 
+![rpmsuccess](../Imagens/rpm/rmp_success_out.png) 
 
 Ou seja, o parâmetro -p nesse deve ser utilizado porque deixa explícito a intenção, evita ambiguidades, funciona de forma previsível, e é o padrão esperado em scripts e documentação técnica.
 
