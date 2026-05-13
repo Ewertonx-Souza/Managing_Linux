@@ -12,7 +12,7 @@ não se aplica ao RPM. Nesse caso, é necessário baixar o pacote .rpm, mas não
  
 * sudo dnf download nano
  
-![download](../Imagens/rmp/dnf_download.png)
+![download](../Imagens/rpm/dnf_download.png)
  
 Após o download, utilizando o comando ls -l é possível visualizar o pacote .rpm baixado no diretório /home/ewerton. 
  
@@ -22,7 +22,7 @@ Agora com o pacote baixa no sistema, é possível fazer os devidos gerenciamento
 
 * rpm -qi [pacote]
 
-![rpmqi](../Imagens/rmp/rpm_qi.png)
+![rpmqi](../Imagens/rpm/rpm_qi.png)
 
 Na imagem é possível observar informações sobre o pacote como versão, arquitetura, data de instalação, packager, etc. 
 
@@ -30,7 +30,7 @@ Na imagem é possível observar informações sobre o pacote como versão, arqui
 
 * rpm ql [pacote]
 
-![rpmql](../Imagens/rmp/rpm_ql.png) 
+![rpmql](../Imagens/rpm/rpm_ql.png) 
 
 Na imagem, de forma padronizada, é fornecido a informações de onde cada arquivo será armazenado. 
 
@@ -53,19 +53,19 @@ E é aqui que entra o atalho inteligente. Mesmo sem -p, os comandos anteriores f
 do arquivo. O RPM olha esse nome inteiro e mesmo sem o -p entende "isso é um arquivo .rpm, vou consultar e obter as informações". Agora testando sem passar o nome inteiro do arquivo o 
 resultado será:
 
-![rpmf](../Imagens/rmp/rpm_failure.png) 
+![rpmf](../Imagens/rpm/rpm_failure.png) 
 
 Isso ocorre em detrimento do pacote nano não está na base de dados de pacotes instalados. Veja que é o mesmo comando, porém solicitando a verificação do pacote na base de dados.
 Quando é utilizado toda a extensão do arquivo (nano-5.6.1-7.el9.x86_64.rpm) o RPM entende que é um arquivo .rpm e consulta ele. 
 
 Outro teste que pode ser feito também, é utilizar o comando passando todo a extensão do arquivo, mas fora de /home/ewerton. O resultado será:
 
-![rpmf2](../Imagens/rmp/rpm_failure2.png) 
+![rpmf2](../Imagens/rpm/rpm_failure2.png) 
 
 O RPM não conseguiu mapear esse arquivo, mesmo passando toda a extensão, pois o shell entregou para o RPM apenas /nano-5.6.1-7.el9.x86_64.rpm e não /home/ewerton/nano-5.6.1-7.el9.x86_64.rpm
 Para que fora, do /home/ewerton o RPM consiga mapear e extrai informações, é necessário passar o caminho completo:
 
-![rpmsuccess](../Imagens/rmp/rpm_success_out.png) 
+![rpmsuccess](../Imagens/rpm/rpm_success_out.png) 
 
 Ou seja, o parâmetro -p nesse deve ser utilizado porque deixa explícito a intenção, evita ambiguidades, funciona de forma previsível, e é o padrão esperado em scripts e documentação técnica.
 
@@ -77,12 +77,12 @@ Será executado dentro do diretório /home/ewerton.
 
 * sudo rpm -i nano 
 
-![rpminstall](../Imagens/rmp/rpm_install.png)
+![rpminstall](../Imagens/rpm/rpm_install.png)
 
 Conforme a imagem, o primeiro ocorreu devido a falta de privilégio para que o rpm posso escrever em arquivos. Porém após o sudo tudo foi executado corretamente, nenhuma mensagem 
 de erro impressa na tela. Agora, testando o nano, o resultado é:
 
-![nano](../Imagens/rmp/nano.png)
+![nano](../Imagens/rpm/nano.png)
 
 Editor de arquivo funcionando normalmente. 
 
@@ -92,5 +92,5 @@ Para ver quais são as versões disponíveis, se usa o comando:
 
 * dnf list --showduplicates nano
 
-![dnflist](../Imagens/rmp/dnf_lists.png)
+![dnflist](../Imagens/rpm/dnf_lists.png)
 
